@@ -77,23 +77,25 @@ PhotoStore is a production-ready photo management application with **dual backen
 
 PhotoStore offers **two backend options** to suit different deployment needs:
 
-```mermaid
-graph TD
-    A[React Frontend] --> B{Backend Choice}
-    B -->|Cloud Deployment| C[Supabase Backend]
-    B -->|Self-Hosted| D[MySQL Backend]
-    
-    C --> E[PostgreSQL Database]
-    C --> F[Supabase Storage]
-    C --> G[Supabase Auth]
-    
-    D --> H[MySQL Database]
-    D --> I[Local File Storage]
-    D --> J[JWT Auth]
-    
-    style A fill:#61dafb,stroke:#000,stroke-width:2px
-    style C fill:#3ECF8E,stroke:#000,stroke-width:2px
-    style D fill:#4479A1,stroke:#000,stroke-width:2px
+```
+                          ┌─────────────────┐
+                          │  React Frontend │
+                          │   (Vite + React)│
+                          └────────┬────────┘
+                                   │
+                    ┌──────────────┴──────────────┐
+                    │                             │
+        ┌───────────▼──────────┐      ┌──────────▼──────────┐
+        │  Supabase Backend    │      │   MySQL Backend     │
+        │   (Cloud-Hosted)     │      │   (Self-Hosted)     │
+        └───────────┬──────────┘      └──────────┬──────────┘
+                    │                             │
+        ┌───────────┼───────────┐     ┌──────────┼──────────┐
+        │           │           │     │          │          │
+   ┌────▼───┐  ┌───▼────┐  ┌──▼──┐ ┌─▼──┐  ┌───▼───┐  ┌───▼───┐
+   │Postgres│  │Supabase│  │Auth │ │MySQL│  │ Local │  │  JWT  │
+   │   DB   │  │Storage │  │     │ │ DB  │  │Storage│  │ Auth  │
+   └────────┘  └────────┘  └─────┘ └─────┘  └───────┘  └───────┘
 ```
 
 ### When to Use Each Backend
