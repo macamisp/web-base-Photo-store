@@ -1,0 +1,189 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-background {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.auth-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    animation: float 20s ease-in-out infinite;
+}
+
+.blob-1 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(135deg, var(--primary-500), var(--accent-500));
+    top: -100px;
+    left: -100px;
+    animation-delay: 0s;
+}
+
+.blob-2 {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(135deg, var(--accent-500), var(--primary-600));
+    bottom: -150px;
+    right: -150px;
+    animation-delay: 5s;
+}
+
+.blob-3 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, var(--primary-400), hsl(210, 85%, 55%));
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 10s;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(50px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-50px, 50px) scale(0.9);
+    }
+}
+
+.auth-content {
+    position: relative;
+    z-index: var(--z-base);
+    width: 100%;
+    max-width: 480px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-3xl) var(--space-2xl);
+    box-shadow: var(--glass-shadow);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.auth-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-600), var(--accent-600));
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--space-lg);
+    color: white;
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.auth-header h1 {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--space-sm);
+    background: linear-gradient(135deg, var(--text-primary), var(--primary-300));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.auth-header p {
+    color: var(--text-tertiary);
+    font-size: var(--font-size-base);
+    margin-bottom: 0;
+}
+
+.auth-form {
+    margin-bottom: var(--space-xl);
+}
+
+.input-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.error-banner,
+.success-banner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.error-banner {
+    background: hsla(0, 84%, 60%, 0.1);
+    border: 1px solid hsla(0, 84%, 60%, 0.3);
+    color: var(--error-500);
+}
+
+.success-banner {
+    background: hsla(142, 76%, 45%, 0.1);
+    border: 1px solid hsla(142, 76%, 45%, 0.3);
+    color: var(--success-500);
+}
+
+.auth-footer {
+    text-align: center;
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.auth-footer p {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
+
+.auth-link {
+    color: var(--primary-400);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.auth-link:hover {
+    color: var(--primary-300);
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .auth-content {
+        padding: var(--space-2xl) var(--space-lg);
+    }
+
+    .auth-logo {
+        width: 64px;
+        height: 64px;
+    }
+
+    .auth-header h1 {
+        font-size: var(--font-size-2xl);
+    }
+}

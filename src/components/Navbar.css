@@ -1,0 +1,124 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-sticky);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-sm);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary-600), var(--accent-600));
+    border-radius: var(--radius-lg);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.navbar-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    background: linear-gradient(135deg, var(--text-primary), var(--primary-300));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+}
+
+.user-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--primary-500), var(--accent-500));
+    border-radius: 50%;
+    color: white;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.user-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.user-email {
+    font-size: var(--font-size-xs);
+    color: var(--text-tertiary);
+    line-height: 1.2;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar-user {
+        padding: var(--space-xs) var(--space-sm);
+    }
+
+    .user-info {
+        display: none;
+    }
+
+    .navbar-title {
+        font-size: var(--font-size-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar-logo svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .btn-sm span {
+        display: none;
+    }
+}
