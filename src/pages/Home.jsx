@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase, PHOTOS_BUCKET, formatBytes, getStoragePercentage, STORAGE_LIMIT } from '../lib/supabase';
+import { photosAPI, formatBytes, getStoragePercentage, STORAGE_LIMIT } from '../lib/api';
 import Navbar from '../components/Navbar';
 import UploadModal from '../components/UploadModal';
 import PhotoGrid from '../components/PhotoGrid';
@@ -30,14 +30,8 @@ export default function Home() {
 
     const fetchPhotos = async () => {
         try {
-            const { data, error } = await supabase
-                .from('photos')
-                .select('*')
-                .eq('user_id', user.id)
-                .order('created_at', { ascending: false });
-
-            if (error) throw error;
-            setPhotos(data || []);
+            const data = await photosAPI.getPhotos();
+            setPhotos(data.photos || []);
         } catch (error) {
             console.error('Error fetching photos:', error);
         } finally {
@@ -47,14 +41,8 @@ export default function Home() {
 
     const fetchStorageUsage = async () => {
         try {
-            const { data, error } = await supabase
-                .from('profiles')
-                .select('storage_used')
-                .eq('id', user.id)
-                .single();
-
-            if (error) throw error;
-            setStorageUsed(data?.storage_used || 0);
+            const data = await photosAPI.getStorageUsage();
+            setStorageUsed(data.storageUsed || 0);
         } catch (error) {
             console.error('Error fetching storage usage:', error);
         }
@@ -81,28 +69,10 @@ export default function Home() {
         if (!confirm('Are you sure you want to delete this photo?')) return;
 
         try {
-            // Delete from storage
-            const { error: storageError } = await supabase.storage
-                .from(PHOTOS_BUCKET)
-                .remove([photo.storage_path]);
+            await photosAPI.deletePhoto(photo.id);
 
-            if (storageError) throw storageError;
-
-            // Delete from database
-            const { error: dbError } = await supabase
-                .from('photos')
-                .delete()
-                .eq('id', photo.id);
-
-            if (dbError) throw dbError;
-
-            // Update storage usage
+            // Update local state
             const newStorageUsed = storageUsed - photo.file_size;
-            await supabase
-                .from('profiles')
-                .update({ storage_used: newStorageUsed })
-                .eq('id', user.id);
-
             setPhotos(photos.filter(p => p.id !== photo.id));
             setStorageUsed(newStorageUsed);
             setPhotoModalOpen(false);

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { photosAPI } from '../lib/api';
 import { X, RotateCw, Crop, Sliders, Save } from 'lucide-react';
 import './Modal.css';
 
@@ -63,12 +63,7 @@ export default function EditPhotoModal({ photo, onClose, onSaveComplete }) {
 
         try {
             // Update title in database
-            const { error } = await supabase
-                .from('photos')
-                .update({ title })
-                .eq('id', photo.id);
-
-            if (error) throw error;
+            await photosAPI.updatePhoto(photo.id, title);
 
             onSaveComplete({ ...photo, title });
         } catch (error) {

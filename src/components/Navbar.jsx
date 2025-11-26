@@ -33,7 +33,7 @@ export default function Navbar() {
                         </div>
                         <div className="user-info">
                             <span className="user-name">
-                                {user?.user_metadata?.full_name || 'User'}
+                                {user?.fullName || 'User'}
                             </span>
                             <span className="user-email">{user?.email}</span>
                         </div>

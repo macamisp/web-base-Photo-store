@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase, PHOTOS_BUCKET, STORAGE_LIMIT, formatBytes } from '../lib/supabase';
+import { photosAPI, STORAGE_LIMIT, formatBytes } from '../lib/api';
 import { X, Upload, Image, AlertCircle, CheckCircle } from 'lucide-react';
 import './Modal.css';
 
@@ -61,43 +61,11 @@ export default function UploadModal({ onClose, onUploadComplete, currentStorageU
 
             // Upload each file
             for (const file of selectedFiles) {
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${user.id}/${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-
-                // Upload to storage
-                const { error: uploadError } = await supabase.storage
-                    .from(PHOTOS_BUCKET)
-                    .upload(fileName, file);
-
-                if (uploadError) throw uploadError;
-
-                // Get public URL
-                const { data: { publicUrl } } = supabase.storage
-                    .from(PHOTOS_BUCKET)
-                    .getPublicUrl(fileName);
-
-                // Save to database
-                const { error: dbError } = await supabase
-                    .from('photos')
-                    .insert([
-                        {
-                            user_id: user.id,
-                            title: file.name.replace(/\.[^/.]+$/, ''),
-                            url: publicUrl,
-                            storage_path: fileName,
-                            file_size: file.size,
-                        },
-                    ]);
-
-                if (dbError) throw dbError;
+                await photosAPI.uploadPhoto(file);
             }
 
-            // Update storage usage
-            const newStorageUsed = currentStorageUsed + totalSize;
-            await supabase
-                .from('profiles')
-                .update({ storage_used: newStorageUsed })
-                .eq('id', user.id);
+            // Update storage usage (handled by backend, but we update local state via onUploadComplete)
+            // The parent component refetches storage usage.
 
             setSuccess(true);
             setTimeout(() => {
